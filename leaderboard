@@ -1,0 +1,79 @@
+
+# a121_catch_a_turtle.py
+#mohammad Shamal
+#-----import statements-----
+import turtle as trtl
+import random as rand
+#-----game configuration----
+spot_color = ("pink")
+spot_shape = ("circle")
+spot_shapesize = (3)
+spot_fillcolor = ("blue")
+#-----initialize t"urtle-----
+spot = trtl.Turtle()
+
+spot.shape(spot_shape)
+spot.color(spot_color)
+spot.shapesize(spot_shapesize)
+spot.fillcolor(spot_fillcolor)
+
+score_writer=trtl.Turtle()
+score_writer.pu()
+score_writer.goto(-300,300)
+score=0
+#-----game functions--------
+
+def spot_onclick(x, y):
+    if timer_up == False:
+        change_position()
+        update_score(x,y)
+
+
+def change_position():
+    new_xpos= rand.randint(-300,200)
+    new_ypos=rand.randint(-300,300)
+    spot.penup()
+    spot.hideturtle()
+    spot.goto(new_xpos,new_ypos)
+    spot.showturtle()
+
+
+score_writer.hideturtle()    
+font_setup = ("Arial", 20, "normal")
+def update_score(x,y):
+  global score # gives this function access to the score that was created above
+  score += 1
+  print(score)
+  score_writer.clear()
+  score_writer.write(score, font=font_setup)
+ 
+#-----countdown variables-----
+counter =  trtl.Turtle()
+counter.hideturtle()
+counter.penup()
+counter.goto(300,300)
+counter.pendown()
+timer = 30
+counter_interval = 1000   #1000 represents 1 second
+timer_up = False
+
+def countdown():
+  global timer, timer_up
+  counter.clear()
+  if timer <= 0:
+    counter.write("Time's Up", font=font_setup)
+    timer_up = True
+  else:
+    counter.write("Timer: " + str(timer), font=font_setup)
+    timer -= 1
+    counter.getscreen().ontimer(countdown, counter_interval) 
+
+
+
+spot.onclick(spot_onclick)
+wn = trtl.Screen()
+wn.bgcolor("pink")
+wn.ontimer(countdown, counter_interval) 
+wn.mainloop()
+
+#-----events----------------
